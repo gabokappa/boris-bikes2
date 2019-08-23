@@ -9,6 +9,12 @@ describe DockingStation do
     expect(DockingStation.new).to respond_to(:dock_bike)
   end
 
+  it "doesn't raise an error when broken bike docked" do
+    bike = Bike.new
+    bike.report_broken
+    expect{ subject.dock_bike(bike) }.not_to raise_error
+  end
+
   it "dock_bike takes an argument" do
     expect(DockingStation.new).to respond_to(:dock_bike).with(1).argument
   end
@@ -20,6 +26,12 @@ describe DockingStation do
 
   it "allows user to set the capacity" do
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+  end
+
+  it "Docking Station responds to working?" do
+    bike = Bike.new
+    subject.dock_bike(bike)
+   expect(subject.release_bike).to respond_to(:working?)
   end
 
   describe 'initialization' do
@@ -41,8 +53,8 @@ describe DockingStation do
 
   describe '#dock_bike' do
     it 'raises an error when full' do
-      subject.capacity.times { subject.dock_bike Bike.new }
-      expect { subject.dock_bike Bike.new }.to raise_error 'Docking station full'
+      subject.capacity.times { subject.dock_bike double :bike }
+      expect { subject.dock_bike double(:bike) }.to raise_error 'Docking station full'
     end
   end
 
@@ -70,9 +82,7 @@ end
 
 
 
-  # it "Docking Station responds to working?" do
-  #   expect((DockingStation.new).release_bike).to respond_to(:working?)
-  # end
+
   #
   # it "Docking Station gets a working bike" do
   #   expect((DockingStation.new).release_bike.working?).to eq(true)

@@ -11,8 +11,8 @@ describe Bike do
     expect(subject).to be_broken
   end
 
- # it "returns whether the bike is working" do
- #   expect(subject.working?("no")).to eq false
- #
- # end
+ it "returns whether the bike is working" do
+   expect(subject.working?).to eq true
+
+ end
 end
